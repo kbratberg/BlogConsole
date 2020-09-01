@@ -1,0 +1,11 @@
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\ServiceTickets\bin\Debug\netcoreapp3.1\ServiceTickets.exe
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\ServiceTickets\bin\Debug\netcoreapp3.1\ServiceTickets.deps.json
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\ServiceTickets\bin\Debug\netcoreapp3.1\ServiceTickets.runtimeconfig.json
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\ServiceTickets\bin\Debug\netcoreapp3.1\ServiceTickets.runtimeconfig.dev.json
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\ServiceTickets\bin\Debug\netcoreapp3.1\ServiceTickets.dll
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\ServiceTickets\bin\Debug\netcoreapp3.1\ServiceTickets.pdb
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\ServiceTickets\obj\Debug\netcoreapp3.1\ServiceTickets.csprojAssemblyReference.cache
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\ServiceTickets\obj\Debug\netcoreapp3.1\ServiceTickets.AssemblyInfoInputs.cache
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\ServiceTickets\obj\Debug\netcoreapp3.1\ServiceTickets.AssemblyInfo.cs
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\ServiceTickets\obj\Debug\netcoreapp3.1\ServiceTickets.dll
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\ServiceTickets\obj\Debug\netcoreapp3.1\ServiceTickets.pdb
