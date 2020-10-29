@@ -1,0 +1,11 @@
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\Date Composite\bin\Debug\netcoreapp3.1\Date Composite.exe
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\Date Composite\bin\Debug\netcoreapp3.1\Date Composite.deps.json
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\Date Composite\bin\Debug\netcoreapp3.1\Date Composite.runtimeconfig.json
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\Date Composite\bin\Debug\netcoreapp3.1\Date Composite.runtimeconfig.dev.json
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\Date Composite\bin\Debug\netcoreapp3.1\Date Composite.dll
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\Date Composite\bin\Debug\netcoreapp3.1\Date Composite.pdb
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\Date Composite\obj\Debug\netcoreapp3.1\Date Composite.csprojAssemblyReference.cache
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\Date Composite\obj\Debug\netcoreapp3.1\Date Composite.AssemblyInfoInputs.cache
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\Date Composite\obj\Debug\netcoreapp3.1\Date Composite.AssemblyInfo.cs
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\Date Composite\obj\Debug\netcoreapp3.1\Date Composite.dll
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\Date Composite\obj\Debug\netcoreapp3.1\Date Composite.pdb

@@ -1,0 +1,11 @@
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\CourseGPAFile\bin\Debug\netcoreapp3.1\CourseGPAFile.exe
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\CourseGPAFile\bin\Debug\netcoreapp3.1\CourseGPAFile.deps.json
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\CourseGPAFile\bin\Debug\netcoreapp3.1\CourseGPAFile.runtimeconfig.json
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\CourseGPAFile\bin\Debug\netcoreapp3.1\CourseGPAFile.runtimeconfig.dev.json
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\CourseGPAFile\bin\Debug\netcoreapp3.1\CourseGPAFile.dll
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\CourseGPAFile\bin\Debug\netcoreapp3.1\CourseGPAFile.pdb
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\CourseGPAFile\obj\Debug\netcoreapp3.1\CourseGPAFile.csprojAssemblyReference.cache
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\CourseGPAFile\obj\Debug\netcoreapp3.1\CourseGPAFile.AssemblyInfoInputs.cache
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\CourseGPAFile\obj\Debug\netcoreapp3.1\CourseGPAFile.AssemblyInfo.cs
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\CourseGPAFile\obj\Debug\netcoreapp3.1\CourseGPAFile.dll
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\CourseGPAFile\obj\Debug\netcoreapp3.1\CourseGPAFile.pdb
