@@ -35,13 +35,14 @@ namespace BlogsConsole
                         var db = new BloggingContext();
                         var query = db.Blogs.OrderBy(b => b.Name);
 
+                        logger.Info($"There were {query.Count()} blogs returned");
+                        
                         Console.WriteLine("All blogs in the database:");
                         foreach (var item in query)
                         {
                             Console.WriteLine(item.Name);
                         }
-                        
-                        logger.Info($"There were {query.Count()} blogs returned");
+
                     }
 
                    else if (choice == "2")
@@ -49,15 +50,22 @@ namespace BlogsConsole
                         // Create and save a new Blog
                         Console.Write("Enter a name for a new Blog: ");
                         var name = Console.ReadLine();
-
+                        if(name == ""){
+                            logger.Info("Name cannot be null");
+                        }else{
                         var blog = new Blog { Name = name };
-
+                        
                         var db = new BloggingContext();
                         db.AddBlog(blog);
                         logger.Info("Blog added - {name}", name);
+                        }
                     }
                    else if(choice == "3"){
                         // create blog post and save to db
+                        var db = new BloggingContext();
+                        var query = db.Blogs.OrderBy(b => b.Name);
+
+                        
                     }
 
                    else if (choice == "4"){
