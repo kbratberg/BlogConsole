@@ -16,6 +16,16 @@ namespace BlogsConsole
 
             try
             {
+                String choice;
+
+                do{
+                Console.WriteLine("Select the number of a option:");
+                Console.WriteLine("1) Display all Blogs");
+                Console.WriteLine("2) Add Blog");
+                Console.WriteLine("3) Create Blog Post");
+                Console.WriteLine("4) Display all Blog Posts");
+
+                choice = Console.ReadLine();
 
                 // Create and save a new Blog
                 Console.Write("Enter a name for a new Blog: ");
@@ -35,6 +45,7 @@ namespace BlogsConsole
                 {
                     Console.WriteLine(item.Name);
                 }
+                }while(choice == "1" || choice == "2" || choice == "3" || choice == "4"); 
             }
             catch (Exception ex)
             {
