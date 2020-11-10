@@ -45,55 +45,65 @@ namespace BlogsConsole
 
                     }
 
-                   else if (choice == "2")
+                    else if (choice == "2")
                     {
                         // Create and save a new Blog
                         Console.Write("Enter a name for a new Blog: ");
                         var name = Console.ReadLine();
-                        if(name == ""){
+                        if (name == "")
+                        {
                             logger.Info("Name cannot be null");
-                        }else{
-                        var blog = new Blog { Name = name };
-                        
-                        var db = new BloggingContext();
-                        db.AddBlog(blog);
-                        logger.Info("Blog added - {name}", name);
+                        }
+                        else
+                        {
+                            var blog = new Blog { Name = name };
+
+                            var db = new BloggingContext();
+                            db.AddBlog(blog);
+                            logger.Info("Blog added - {name}", name);
                         }
                     }
-                   else if(choice == "3"){
+                    else if (choice == "3")
+                    {
                         // create blog post and save to db
                         var db = new BloggingContext();
                         var query = db.Blogs.OrderBy(b => b.Name);
 
                         Console.WriteLine("Pick a Blog to add a post");
-                        
+
                         foreach (var item in query)
                         {
                             Console.WriteLine($"{item.BlogId}) {item.Name}");
-                            
+
                         }
                         Int64 intPostChoice;
                         String postChoice = Console.ReadLine();
                         Boolean success = Int64.TryParse(postChoice, out intPostChoice);
-                        if(success){ 
+                        if (success)
+                        {
                             logger.Info($"You entered {intPostChoice}");
-                            }
-                            else if (postChoice == ""){
-                                logger.Info("Choice cannot be null");
-                            }
+                        }
+                        else if (postChoice == "")
+                        {
+                            logger.Info("Choice cannot be null");
+                        }
 
-                        foreach (var item in query){
-                            if (intPostChoice == item.BlogId){
+                        foreach (var item in query)
+                        {
+                            if (intPostChoice == item.BlogId)
+                            {
                                 Console.WriteLine("Enter Post Title:");
                                 String postTitle = Console.ReadLine();
 
-                                if (postTitle == ""){
+                                if (postTitle == "")
+                                {
                                     logger.Info("Title cannot be Null");
                                 }
                                 Console.WriteLine("Enter Post Content");
                                 String postContent = Console.ReadLine();
 
-                                if (postContent == ""){
+                                if (postContent == "")
+                                {
                                     logger.Info("Content cannot be null");
                                 }
 
@@ -101,21 +111,44 @@ namespace BlogsConsole
                                 db.AddPost(post);
                                 logger.Info($"Post entered for Blog: {item.Name}, Title: {postTitle}, Content: {postContent}");
 
-                            }else{
+                            }
+                            else
+                            {
                                 logger.Info("Invalid Blog Id");
                             }
                         }
 
                     }
 
-                   else if (choice == "4"){
+                    else if (choice == "4")
+                    {
+                        var db = new BloggingContext();
+                        var query = db.Blogs.OrderBy(b => b.Name);
+
+                        Console.WriteLine("Enter which Blogs you would like to Display");
+                        Console.WriteLine("0) Display all blogs");
+                        foreach(var blog in query){
+                            Console.WriteLine($"{blog.BlogId}) Display all posts in {blog.Name}");
+                        }
+                        Int64 blogToDisplay;
+                        String displayChoice = Console.ReadLine();
+                        Boolean success = Int64.TryParse(displayChoice, out blogToDisplay);
+
+                        if (success){
+                            
+
+                        }else{
+                            logger.Info("Please enter a valid number");
+                        }
 
                     }
 
-                    else if(choice == "q"){
+                    else if (choice == "q")
+                    {
                         logger.Info("Program Ended");
                     }
-                    else{
+                    else
+                    {
                         logger.Info("Invalid Choice");
                     }
 
