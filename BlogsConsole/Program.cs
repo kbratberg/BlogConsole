@@ -124,6 +124,7 @@ namespace BlogsConsole
                     {
                         var db = new BloggingContext();
                         var query = db.Blogs.OrderBy(b => b.Name);
+                        var postQuery = db.Posts.OrderBy(p => p.Title);
 
                         Console.WriteLine("Enter which Blogs you would like to Display");
                         Console.WriteLine("0) Display all blogs");
@@ -135,7 +136,14 @@ namespace BlogsConsole
                         Boolean success = Int64.TryParse(displayChoice, out blogToDisplay);
 
                         if (success){
-                            
+                            if (blogToDisplay == 0){
+                                foreach (var blog in query){
+                                    Console.WriteLine($"Blog's in {blog.Name}");
+                                    foreach( var post in postQuery){
+                                        Console.WriteLine($"Title:\n{post.Title}/nContent:\n{post.Content}");
+                                    }
+                                }
+                            }
 
                         }else{
                             logger.Info("Please enter a valid number");
