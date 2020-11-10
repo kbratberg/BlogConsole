@@ -99,6 +99,7 @@ namespace BlogsConsole
 
                                 var post = new Post { Title = postTitle, Content = postContent, BlogId = item.BlogId };
                                 db.AddPost(post);
+                                logger.Info($"Post entered for Blog: {item.Name}, Title: {postTitle}, Content: {postContent}");
 
                             }else{
                                 logger.Info("Invalid Blog Id");
