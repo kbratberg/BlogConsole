@@ -33,7 +33,7 @@ namespace BlogsConsole
                         // Display all Blogs from the database
 
                         var db = new BloggingContext();
-                        var query = db.Blogs.OrderBy(b => b.Name);
+                        var query = db.Blogs.OrderBy(b => b.BlogId);
 
                         logger.Info($"There were {query.Count()} blogs returned");
 
@@ -67,8 +67,8 @@ namespace BlogsConsole
                     {
                         // create blog post and save to db
                         var db = new BloggingContext();
-                        var query = db.Blogs.OrderBy(b => b.Name);
-
+                        var query = db.Blogs.OrderBy(b => b.BlogId);
+                        Boolean postAdded = false;
                         Console.WriteLine("Pick a Blog to add a post");
 
                         foreach (var item in query)
@@ -76,9 +76,9 @@ namespace BlogsConsole
                             Console.WriteLine($"{item.BlogId}) {item.Name}");
 
                         }
-                        Int64 intPostChoice;
+                        Int32 intPostChoice;
                         String postChoice = Console.ReadLine();
-                        Boolean success = Int64.TryParse(postChoice, out intPostChoice);
+                        Boolean success = Int32.TryParse(postChoice, out intPostChoice);
                         if (success)
                         {
                             logger.Info($"You entered {intPostChoice}");
@@ -87,78 +87,95 @@ namespace BlogsConsole
                         {
                             logger.Info("Choice cannot be null");
                         }
-
+                        
                         foreach (var item in query)
                         {
                             if (intPostChoice == item.BlogId)
                             {
-                                Console.WriteLine("Enter Post Title:");
-                                String postTitle = Console.ReadLine();
+                               postAdded = true;
+                            }
+
+                        }
+                        if(postAdded == true){
+                             Console.WriteLine("Enter Post Title:");
+                               String postTitle = Console.ReadLine();
 
                                 if (postTitle == "")
                                 {
                                     logger.Info("Title cannot be Null");
                                 }
                                 Console.WriteLine("Enter Post Content");
-                                String postContent = Console.ReadLine();
+                               String postContent = Console.ReadLine();
 
                                 if (postContent == "")
                                 {
                                     logger.Info("Content cannot be null");
                                 }
-
-                                var post = new Post { Title = postTitle, Content = postContent, BlogId = item.BlogId };
+                                var post = new Post { Title = postTitle, Content = postContent, BlogId = intPostChoice };
                                 db.AddPost(post);
-                                logger.Info($"Post entered for Blog: {item.Name}, Title: {postTitle}, Content: {postContent}");
+                                logger.Info($"Post entered Title: {postTitle}, Content: {postContent}");
 
-                            }
-                            else
-                            {
-                                logger.Info("Invalid Blog Id");
-                            }
+  
                         }
-
                     }
 
                     else if (choice == "4")
                     {
                         var db = new BloggingContext();
-                        var query = db.Blogs.OrderBy(b => b.Name);
-                        var postQuery = db.Posts.OrderBy(p => p.Title);
+                        var query = db.Blogs.OrderBy(b => b.BlogId);
+                        Int64 totalPosts = 0;
 
                         Console.WriteLine("Enter which Blogs you would like to Display");
                         Console.WriteLine("0) Display all blogs");
-                        foreach(var blog in query){
+                        foreach (var blog in query)
+                        {
                             Console.WriteLine($"{blog.BlogId}) Display all posts in {blog.Name}");
                         }
                         Int64 blogToDisplay;
                         String displayChoice = Console.ReadLine();
                         Boolean success = Int64.TryParse(displayChoice, out blogToDisplay);
 
-                        if (success){
-                            if (blogToDisplay == 0){
-                                foreach (var blog in query){
-                                    Console.WriteLine($"Blog's in {blog.Name}");
-                                    foreach( var post in postQuery){
-                                        Console.WriteLine($"Title:\n{post.Title}/nContent:\n{post.Content}");
-                                    }
-                                }
-                                logger.Info($"There were {postQuery.Count()} Posts to display");
-                            }
-                            foreach(var blog in query){
-                                if(blogToDisplay == blog.BlogId){
-                                    Console.WriteLine($"{blog.Name}");
-                                    var postToDisplayQuery = db.Posts.Where(p => p.BlogId.Equals(blogToDisplay));
-                                    logger.Info($"There are {postToDisplayQuery.Count()} posts to display");
-                                    foreach(var post in postToDisplayQuery){
+                        if (success)
+                        {
+                            if (blogToDisplay == 0)
+                            {
+                                foreach (var blog in query)
+                                {
+                                    var postQuery = db.Posts.Where(p => p.BlogId == blog.BlogId).OrderBy(p => p.Title);
+                                    if (postQuery.Count() != 0){
+                                    Console.WriteLine($"Category: {blog.Name}");
+                                    foreach (var post in postQuery)
+                                    {
                                         Console.WriteLine($"Title:\n{post.Title}\nContent:\n{post.Content}");
                                     }
-                                }else{
-                                    logger.Info("Please enter correct blog Id");
+                                    totalPosts += postQuery.Count();
+                                    }
                                 }
+                                logger.Info($"There were {totalPosts} Posts to display");
+                            }else{
+                                Boolean isBlog = false;
+                            foreach (var blog in query)
+                            {
+                                if (blogToDisplay == blog.BlogId)
+                                {
+                                    Console.WriteLine($"{blog.Name}");
+                                    var postToDisplayQuery = db.Posts.Where(p => p.BlogId == blogToDisplay);
+                                    logger.Info($"There are {postToDisplayQuery.Count()} posts to display");
+                                    foreach (var post in postToDisplayQuery)
+                                    {
+                                        Console.WriteLine($"Title:\n{post.Title}\nContent:\n{post.Content}");
+                                    }
+                                    isBlog = true;
+                                }
+                                
                             }
-
-                        }else{
+                            if (isBlog == false){
+                                logger.Info("Enter a valid blog entry");
+                            }
+                            }
+                        }
+                        else
+                        {
                             logger.Info("Please enter a valid number");
                         }
 
