@@ -143,6 +143,19 @@ namespace BlogsConsole
                                         Console.WriteLine($"Title:\n{post.Title}/nContent:\n{post.Content}");
                                     }
                                 }
+                                logger.Info($"There were {postQuery.Count()} Posts to display");
+                            }
+                            foreach(var blog in query){
+                                if(blogToDisplay == blog.BlogId){
+                                    Console.WriteLine($"{blog.Name}");
+                                    var postToDisplayQuery = db.Posts.Where(p => p.BlogId.Equals(blogToDisplay));
+                                    logger.Info($"There are {postToDisplayQuery.Count()} posts to display");
+                                    foreach(var post in postToDisplayQuery){
+                                        Console.WriteLine($"Title:\n{post.Title}\nContent:\n{post.Content}");
+                                    }
+                                }else{
+                                    logger.Info("Please enter correct blog Id");
+                                }
                             }
 
                         }else{
