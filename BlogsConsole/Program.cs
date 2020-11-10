@@ -36,7 +36,7 @@ namespace BlogsConsole
                         var query = db.Blogs.OrderBy(b => b.Name);
 
                         logger.Info($"There were {query.Count()} blogs returned");
-                        
+
                         Console.WriteLine("All blogs in the database:");
                         foreach (var item in query)
                         {
@@ -65,7 +65,46 @@ namespace BlogsConsole
                         var db = new BloggingContext();
                         var query = db.Blogs.OrderBy(b => b.Name);
 
+                        Console.WriteLine("Pick a Blog to add a post");
                         
+                        foreach (var item in query)
+                        {
+                            Console.WriteLine($"{item.BlogId}) {item.Name}");
+                            
+                        }
+                        Int64 intPostChoice;
+                        String postChoice = Console.ReadLine();
+                        Boolean success = Int64.TryParse(postChoice, out intPostChoice);
+                        if(success){ 
+                            logger.Info($"You entered {intPostChoice}");
+                            }
+                            else if (postChoice == ""){
+                                logger.Info("Choice cannot be null");
+                            }
+
+                        foreach (var item in query){
+                            if (intPostChoice == item.BlogId){
+                                Console.WriteLine("Enter Post Title:");
+                                String postTitle = Console.ReadLine();
+
+                                if (postTitle == ""){
+                                    logger.Info("Title cannot be Null");
+                                }
+                                Console.WriteLine("Enter Post Content");
+                                String postContent = Console.ReadLine();
+
+                                if (postContent == ""){
+                                    logger.Info("Content cannot be null");
+                                }
+
+                                var post = new Post { Title = postTitle, Content = postContent, BlogId = item.BlogId };
+                                db.AddPost(post);
+
+                            }else{
+                                logger.Info("Invalid Blog Id");
+                            }
+                        }
+
                     }
 
                    else if (choice == "4"){
