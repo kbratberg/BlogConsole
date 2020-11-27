@@ -2,7 +2,8 @@
 using NLog.Web;
 using System.IO;
 using System.Linq;
-
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BlogsConsole
 {
@@ -25,6 +26,7 @@ namespace BlogsConsole
                     Console.WriteLine("2) Add Blog");
                     Console.WriteLine("3) Create Blog Post");
                     Console.WriteLine("4) Display all Blog Posts");
+                    Console.WriteLine("5) Delete Blog");
                     Console.WriteLine("Enter q to exit");
 
                     choice = Console.ReadLine();
@@ -49,18 +51,35 @@ namespace BlogsConsole
                     {
                         // Create and save a new Blog
                         Console.Write("Enter a name for a new Blog: ");
-                        var name = Console.ReadLine();
-                        if (name == "")
-                        {
-                            logger.Info("Name cannot be null");
-                        }
-                        else
-                        {
-                            var blog = new Blog { Name = name };
+                        var blog = new Blog { Name = Console.ReadLine() };
+                         ValidationContext context = new ValidationContext(blog, null, null);
+                        List<ValidationResult> results = new List<ValidationResult>();
 
+                        var isValid = Validator.TryValidateObject(blog, context, results, true);
+                        if (isValid)
+                        {
                             var db = new BloggingContext();
-                            db.AddBlog(blog);
-                            logger.Info("Blog added - {name}", name);
+                            // check for unique name
+                            if (db.Blogs.Any(b => b.Name == blog.Name))
+                            {
+                                // generate validation error
+                                isValid = false;
+                                results.Add(new ValidationResult("Blog name exists", new string[] { "Name" }));
+                            }
+                            else
+                            {
+                                logger.Info("Validation passed");
+                                // save blog to db
+                                db.AddBlog(blog);
+                                logger.Info("Blog added - {name}", blog.Name);
+                            }
+                        }
+                        if (!isValid)
+                        {
+                            foreach (var result in results)
+                            {
+                                logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");
+                            }
                         }
                     }
                     else if (choice == "3")
@@ -180,6 +199,19 @@ namespace BlogsConsole
                         }
 
                     }
+                    else if (choice == "5")
+                    {
+                        // delete blog
+                        Console.WriteLine("Choose the blog to delete:");
+                         var db = new BloggingContext();
+                        var blog = GetBlog(db);
+                        if (blog != null)
+                        {
+                             // delete blog
+                            db.DeleteBlog(blog);
+                            logger.Info($"Blog (id: {blog.BlogId}) deleted");
+                        }
+                    }
 
                     else if (choice == "q")
                     {
@@ -190,7 +222,7 @@ namespace BlogsConsole
                         logger.Info("Invalid Choice");
                     }
 
-                } while (choice == "1" || choice == "2" || choice == "3" || choice == "4");
+                } while (choice == "1" || choice == "2" || choice == "3" || choice == "4"|| choice == "5");
             }
             catch (Exception ex)
             {
@@ -198,6 +230,25 @@ namespace BlogsConsole
             }
 
             logger.Info("Program ended");
+        }
+        public static Blog GetBlog(BloggingContext db)
+        {
+            // display all blogs
+            var blogs = db.Blogs.OrderBy(b => b.BlogId);
+            foreach (Blog b in blogs)
+            {
+                Console.WriteLine($"{b.BlogId}: {b.Name}");
+            }
+            if (int.TryParse(Console.ReadLine(), out int BlogId))
+            {
+                Blog blog = db.Blogs.FirstOrDefault(b => b.BlogId == BlogId);
+                if (blog != null)
+                {
+                    return blog;
+                }
+            }
+            logger.Error("Invalid Blog Id");
+            return null;
         }
     }
 }
