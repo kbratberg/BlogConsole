@@ -22,14 +22,22 @@ namespace NorthwindConsole
                 string choice;
                 do
                 {
-                    Console.WriteLine("1) Display Categories");
+                    Console.WriteLine("1) Edit a Category");
                     Console.WriteLine("2) Add Category");
-                    Console.WriteLine("3) Display Category and related products");                    Console.WriteLine("4) Display all Categories and their related products");
+                    Console.WriteLine("3) Display Category and related products");
+                    Console.WriteLine("4) Display all Categories");
+                    Console.WriteLine("5) Display Products");
+                    Console.WriteLine("6) Add Product");
+                    Console.WriteLine("7) Edit a Product");
+                    Console.WriteLine("8) Display all Products");
+                    Console.WriteLine("9) Display Individual Product");
                     Console.WriteLine("\"q\" to quit");
                     choice = Console.ReadLine();
                     Console.Clear();
+
+
                     logger.Info($"Option {choice} selected");
-                    if (choice == "1")
+                    if (choice == "4")
                     {
                         var db = new NorthwindConsole_32_KMBContext();
                         var query = db.Categories.OrderBy(p => p.CategoryName);
@@ -43,40 +51,80 @@ namespace NorthwindConsole
                         }
                         Console.ForegroundColor = ConsoleColor.White;
                     }
+                    if (choice == "8")
+                    {
+                        
+                        Console.WriteLine("Select Which Products to Display");
+                        Console.WriteLine("1)Display all Products");
+                        Console.WriteLine("2)Display Active Products");
+                        Console.WriteLine("3)Display Discontinued Products");
+
+                        var displayChoice = Console.ReadLine();
+                        logger.Info($"Ypur choice: {displayChoice}");
+                        if(displayChoice != "1" || displayChoice != "2" || displayChoice != "3" ){
+                            logger.Info("Invalid Choice");
+                        }
+                        var db = new NorthwindConsole_32_KMBContext();
+
+                        if (displayChoice == "1")
+                        {
+
+                            var query = db.Products.OrderBy(p => p.ProductName);
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine($"{query.Count()} records returned");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            foreach (var item in query)
+                            {
+                                if (item.Discontinued == true)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Magenta;
+                                }
+                                else
+                                {
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                }
+                                Console.WriteLine($"{item.ProductName}");
+                            }
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        if (displayChoice == "2")
+                        {
+                            var query = db.Products.Where(p => p.Discontinued == false).OrderBy(p => p.ProductName);
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine($"{query.Count()} records returned");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            foreach (var item in query)
+                            {
+                                
+                                    Console.WriteLine($"{item.ProductName}");
+                                
+                            }
+
+                        }
+                        if (displayChoice == "3")
+                        {
+                            var query = db.Products.Where(p => p.Discontinued == true).OrderBy(p => p.ProductName);
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine($"{query.Count()} records returned");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            foreach (var item in query)
+                            {
+                                
+                                    Console.WriteLine($"{item.ProductName}");
+                                
+                            }
+
+                        }
+                    }
                     else if (choice == "2")
                     {
-                        Category category = new Category();
-                        Console.WriteLine("Enter Category Name:");
-                        category.CategoryName = Console.ReadLine();
-                        Console.WriteLine("Enter the Category Description:");
-                        category.Description = Console.ReadLine();
+                        var db = new NorthwindConsole_32_KMBContext();
+                        Category category = InputCategory(db);
 
-                        ValidationContext context = new ValidationContext(category, null, null);
-                        List<ValidationResult> results = new List<ValidationResult>();
-
-                        var isValid = Validator.TryValidateObject(category, context, results, true);
-                        if (isValid)
+                        if (category != null)
                         {
-                            var db = new NorthwindConsole_32_KMBContext();
-                            // check for unique name
-                            if (db.Categories.Any(c => c.CategoryName == category.CategoryName))
-                            {
-                                // generate validation error
-                                isValid = false;
-                                results.Add(new ValidationResult("Name exists", new string[] { "CategoryName" }));
-                            }
-                            else
-                            {
-                                logger.Info("Validation passed");
-                                // TODO: save category to db
-                            }
-                        }
-                        if (!isValid)
-                        {
-                            foreach (var result in results)
-                            {
-                                logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");
-                            }
+                            db.Categories.Add(category);
+                            db.SaveChanges();
                         }
                     }
                     else if (choice == "3")
@@ -116,7 +164,7 @@ namespace NorthwindConsole
                     }
                     Console.WriteLine();
 
-                } while (choice.ToLower() != "q");
+                } while (choice != "q");
             }
             catch (Exception ex)
             {
@@ -125,5 +173,120 @@ namespace NorthwindConsole
 
             logger.Info("Program ended");
         }
+        public static Category GetCategory(NorthwindConsole_32_KMBContext db)
+        {
+
+            // display all blogs
+            var categories = db.Categories.OrderBy(b => b.CategoryId);
+            foreach (Category c in categories)
+            {
+                Console.WriteLine($"{c.CategoryId}: {c.CategoryName}");
+            }
+            if (int.TryParse(Console.ReadLine(), out int CategoryId))
+            {
+                Category category = db.Categories.FirstOrDefault(c => c.CategoryId == CategoryId);
+                if (category != null)
+                {
+                    return category;
+                }
+            }
+            logger.Error("Invalid Category Id");
+            return null;
+        }
+        public static Product GetProduct(NorthwindConsole_32_KMBContext db)
+        {
+
+            // display all blogs
+            var products = db.Products.OrderBy(b => b.ProductId);
+            foreach (Product p in products)
+            {
+                Console.WriteLine($"{p.ProductId}: {p.ProductName}");
+            }
+            if (int.TryParse(Console.ReadLine(), out int ProductId))
+            {
+                Product product = db.Products.FirstOrDefault(p => p.ProductId == ProductId);
+                if (product != null)
+                {
+                    return product;
+                }
+            }
+            logger.Error("Invalid Category Id");
+            return null;
+        }
+
+        public static Category InputCategory(NorthwindConsole_32_KMBContext db)
+        {
+
+            Category category = new Category();
+            Console.WriteLine("Enter the Category name");
+            category.CategoryName = Console.ReadLine();
+
+            ValidationContext context = new ValidationContext(category, null, null);
+            List<ValidationResult> results = new List<ValidationResult>();
+
+            var isValid = Validator.TryValidateObject(category, context, results, true);
+            if (isValid)
+            {
+                // check for unique name
+                if (db.Categories.Any(c => c.CategoryName == category.CategoryName))
+                {
+                    // generate validation error
+                    isValid = false;
+                    results.Add(new ValidationResult("Category already exists", new string[] { "CategoryName" }));
+                }
+                else
+                {
+                    logger.Info("Validation passed");
+                }
+            }
+            if (!isValid)
+            {
+                foreach (var result in results)
+                {
+                    logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");
+                }
+                return null;
+            }
+
+            return category;
+        }
+
+        public static Product InputProduct(NorthwindConsole_32_KMBContext db)
+        {
+
+            Product product = new Product();
+            Console.WriteLine("Enter the Product name");
+            product.ProductName = Console.ReadLine();
+
+            ValidationContext context = new ValidationContext(product, null, null);
+            List<ValidationResult> results = new List<ValidationResult>();
+
+            var isValid = Validator.TryValidateObject(product, context, results, true);
+            if (isValid)
+            {
+                // check for unique name
+                if (db.Products.Any(c => c.ProductName == product.ProductName))
+                {
+                    // generate validation error
+                    isValid = false;
+                    results.Add(new ValidationResult("Product already exists", new string[] { "ProductName" }));
+                }
+                else
+                {
+                    logger.Info("Validation passed");
+                }
+            }
+            if (!isValid)
+            {
+                foreach (var result in results)
+                {
+                    logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");
+                }
+                return null;
+            }
+
+            return product;
+        }
     }
+
 }

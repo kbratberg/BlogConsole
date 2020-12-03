@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
+
 #nullable disable
 
 namespace NorthwindConsole.Model
@@ -27,4 +29,5 @@ namespace NorthwindConsole.Model
         public virtual Supplier Supplier { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
+    
 }

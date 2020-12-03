@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
 #nullable disable
 
 namespace NorthwindConsole.Model
@@ -18,5 +19,7 @@ namespace NorthwindConsole.Model
         public string Description { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
+
     }
+    
 }
