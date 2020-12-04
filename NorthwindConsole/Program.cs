@@ -31,6 +31,8 @@ namespace NorthwindConsole
                     Console.WriteLine("7) Add Product");
                     Console.WriteLine("8) Edit a Product");
                     Console.WriteLine("9) Display all Products");
+                    Console.WriteLine("10) Delete a Category");
+                    Console.WriteLine("11) Delete a Product");
                     Console.WriteLine("\"q\" to quit");
                     choice = Console.ReadLine();
                     Console.Clear();
@@ -294,7 +296,32 @@ namespace NorthwindConsole
 
                         }
                     }
+                    else if (choice == "10")
+                    {
+                        //delete category
+                        Console.WriteLine("Choose the blog to delete:");
+                         var db = new NorthwindConsole_32_KMBContext();
+                        var category = GetCategory(db);
+                        if (category != null)
+                        {
+                             // delete blog
+                            db.Categories.Remove(category);
+                            logger.Info($"Category (id: {category.CategoryId}) deleted");
+                        }
+                    }else if (choice == "11")
+                    {
+                        //delete product
+                        Console.WriteLine("Choose the blog to delete:");
+                         var db = new NorthwindConsole_32_KMBContext();
+                        var product = GetProduct(db);
+                        if (product != null)
+                        {
+                             // delete blog
+                            db.Products.Remove(product);
+                            logger.Info($"Product (id: {product.ProductId}) deleted");
+                        }
 
+                    }
 
                 } while (choice != "q");
             }
