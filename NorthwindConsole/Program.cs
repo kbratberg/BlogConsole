@@ -44,11 +44,12 @@ namespace NorthwindConsole
                         //edit Category
                         var db = new NorthwindConsole_32_KMBContext();
                         Category category = GetCategory(db);
-                        Console.WriteLine(category.CategoryName);
+                        Console.WriteLine($"Details:\nDName: {category.CategoryName}\nDescription: {category.Description}");
                         Category UpdatedCategory = InputCategory(db);
                         
                         if(category != null){
                             category.CategoryName = UpdatedCategory.CategoryName;
+                            category.Description = UpdatedCategory.Description;
                             db.SaveChanges();
                         }
                         
@@ -166,11 +167,41 @@ namespace NorthwindConsole
                         //edit a product
                         var db = new NorthwindConsole_32_KMBContext();
                         Product product= GetProduct(db);
-                        
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        Console.WriteLine($"Product Details");
+                        Console.WriteLine($"ProductId: {product.ProductId}\nProduct Name: {product.ProductName}\nSupplierId: {product.SupplierId}\nCategoryId: {product.CategoryId}\nQuantity Per Unit: {product.QuantityPerUnit}");
+                        Console.WriteLine($"Unit Price: {product.UnitPrice}\nUnits in Stock: {product.UnitsInStock}\nUnits On Order: {product.UnitsOnOrder}\nReorder Level: {product.ReorderLevel}");
+                        Console.ForegroundColor = ConsoleColor.White;
                         Product UpdatedProduct = InputProduct(db);
                         
                         if(product != null){
+                            if(UpdatedProduct.ProductName != null){
                             product.ProductName = UpdatedProduct.ProductName;
+                            }
+                            if(UpdatedProduct.SupplierId != null){
+                            product.SupplierId = UpdatedProduct.SupplierId;
+                            }
+                            if(UpdatedProduct.CategoryId != null){
+                            product.CategoryId = UpdatedProduct.CategoryId;
+                            }
+                            if(UpdatedProduct.UnitPrice != null){
+                            product.UnitPrice = UpdatedProduct.UnitPrice;
+                            }
+                            if(UpdatedProduct.QuantityPerUnit != null){
+                            product.QuantityPerUnit = UpdatedProduct.QuantityPerUnit;
+                            }
+                            if(UpdatedProduct.UnitsInStock != null){
+                            product.UnitsInStock = UpdatedProduct.UnitsInStock;
+                            }
+                            if(UpdatedProduct.UnitsOnOrder != null){
+                            product.UnitsOnOrder = UpdatedProduct.UnitsOnOrder;
+                            }
+                            if(UpdatedProduct.ReorderLevel != null){
+                            product.ReorderLevel = UpdatedProduct.ReorderLevel;
+                            }
+                            
+                            product.Discontinued = UpdatedProduct.Discontinued;
+                            
                             db.SaveChanges();
                         }
 
@@ -305,6 +336,8 @@ namespace NorthwindConsole
         {
 
             Category category = new Category();
+            Console.WriteLine("If editing,; do you want to Edit Category Name? y/n");
+            var toEdit = Console.ReadLine().ToLower();
             Console.WriteLine("Enter the Category name");
             category.CategoryName = Console.ReadLine();
             Console.WriteLine("Enter Product Description");
@@ -317,7 +350,7 @@ namespace NorthwindConsole
             if (isValid)
             {
                 // check for unique name
-                if (db.Categories.Any(c => c.CategoryName == category.CategoryName))
+                if (db.Categories.Any(c => c.CategoryName == category.CategoryName && toEdit == "y"))
                 {
                     // generate validation error
                     isValid = false;
@@ -344,27 +377,11 @@ namespace NorthwindConsole
         {
 
             Product product = new Product();
-            Console.WriteLine("Enter the Product name");
-            Console.WriteLine("Do you want to continue Entering Product Details?");
-            Console.WriteLine("Enter 1 for yes, 2 for no");
-            var cont = Console.ReadLine();
-            if (cont == "y"){
+            
+            Console.WriteLine("If editing, Do you want to Edit Product Name? y/n");
+            var toEdit = Console.ReadLine().ToLower();
+            Console.WriteLine("Add/Edit Product name");
             product.ProductName = Console.ReadLine();
-            Console.WriteLine("Enter a Supplier ID");
-            product.SupplierId = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter the Category ID");
-            product.CategoryId = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter the Quanity per Unit");
-            product.QuantityPerUnit = Console.ReadLine();
-            Console.WriteLine("Enter the Unit Price");
-            product.UnitPrice = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter the Units in Stock");
-            product.UnitsInStock = short.Parse(Console.ReadLine());
-            Console.WriteLine("Enter the Reorder Level");
-            product.ReorderLevel = short.Parse(Console.ReadLine());
-            Console.WriteLine("Is this product discontinued? Enter True for yes, False for no");
-            product.Discontinued = bool.Parse(Console.ReadLine());
-            }
 
             ValidationContext context = new ValidationContext(product, null, null);
             List<ValidationResult> results = new List<ValidationResult>();
@@ -373,7 +390,7 @@ namespace NorthwindConsole
             if (isValid)
             {
                 // check for unique name
-                if (db.Products.Any(c => c.ProductName == product.ProductName))
+                if (db.Products.Any(c => c.ProductName == product.ProductName) && toEdit == "y")
                 {
                     // generate validation error
                     isValid = false;
@@ -391,6 +408,35 @@ namespace NorthwindConsole
                     logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");
                 }
                 return null;
+            }
+
+            Console.WriteLine("Do you want to continue Add/Edit Product Details?");
+            Console.WriteLine("Enter y for yes, n for no");
+            var cont = Console.ReadLine().ToLower();
+            if (cont == "y"){
+            Console.WriteLine("Enter a Supplier ID");
+            var suppliers = db.Suppliers.OrderBy(s => s.SupplierId);
+            foreach (var s in suppliers){
+                Console.WriteLine($"{s.SupplierId} {s.CompanyName}");
+            }
+            product.SupplierId = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter the Category ID");
+            var categories = db.Categories.OrderBy(c => c.CategoryId);
+            foreach(var c in categories){
+                Console.WriteLine($"{c.CategoryId} {c.CategoryName}");
+            }
+            product.CategoryId = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter the Quanity per Unit");
+            product.QuantityPerUnit = Console.ReadLine();
+            Console.WriteLine("Enter the Unit Price");
+            product.UnitPrice = decimal.Parse(Console.ReadLine());
+            Console.WriteLine("Enter the Units in Stock");
+            product.UnitsInStock = short.Parse(Console.ReadLine());
+            Console.WriteLine("Enter the Reorder Level");
+            product.ReorderLevel = short.Parse(Console.ReadLine());
+            Console.WriteLine("Is this product discontinued? Enter True for yes, False for no");
+            product.Discontinued = bool.Parse(Console.ReadLine());
+            
             }
 
             return product;
