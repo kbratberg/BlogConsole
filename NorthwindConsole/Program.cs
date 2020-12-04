@@ -31,8 +31,6 @@ namespace NorthwindConsole
                     Console.WriteLine("7) Add Product");
                     Console.WriteLine("8) Edit a Product");
                     Console.WriteLine("9) Display all Products");
-                    Console.WriteLine("10) Delete a Category");
-                    Console.WriteLine("11) Delete a Product");
                     Console.WriteLine("\"q\" to quit");
                     choice = Console.ReadLine();
                     Console.Clear();
@@ -44,7 +42,9 @@ namespace NorthwindConsole
                         //edit Category
                         var db = new NorthwindConsole_32_KMBContext();
                         Category category = GetCategory(db);
-                        Console.WriteLine($"Details:\nDName: {category.CategoryName}\nDescription: {category.Description}");
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        Console.WriteLine($"Details:\nName: {category.CategoryName}\nDescription: {category.Description}");
+                        Console.ForegroundColor = ConsoleColor.White;
                         Category UpdatedCategory = InputCategory(db);
                         
                         if(category != null){
@@ -54,7 +54,7 @@ namespace NorthwindConsole
                             }
                             db.SaveChanges();
                         }
-                        logger.Info($"Updated Category: {category.CategoryId}\nName: {category.CategoryName}\nDescription: {category.Description}");
+                        logger.Info($"Updated Category: {category.CategoryId} Name: {category.CategoryName}Description: {category.Description}");
                     }
                     else if (choice == "2")
                     {   //add Category
@@ -85,10 +85,13 @@ namespace NorthwindConsole
                         logger.Info($"CategoryId {id} selected");
                         Category category = db.Categories.Include("Products").FirstOrDefault(c => c.CategoryId == id);
                         Console.WriteLine($"{category.CategoryName} - {category.Description}");
+                        var count = 0;
                         foreach (Product p in category.Products)
                         {
                             Console.WriteLine(p.ProductName);
+                            count++;
                         }
+                        logger.Info($"{count} product items in {category.CategoryName}");
                     }
                     if (choice == "4")
                     {
@@ -110,9 +113,10 @@ namespace NorthwindConsole
                         //Display all categories and their related active products
                         var db = new NorthwindConsole_32_KMBContext();
                         var categoryQuery = db.Categories.Include("Products").OrderBy(p => p.CategoryName);
-
+                        
                         foreach (var item in categoryQuery)
-                        {
+                        {   
+                            var count = 0;
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine($"{item.CategoryName}");
                             Console.ForegroundColor = ConsoleColor.White;
@@ -121,8 +125,10 @@ namespace NorthwindConsole
                                 if (p.Discontinued == false)
                                 {
                                     Console.WriteLine($"\t{p.ProductName}");
+                                    count++;
                                 }
                             }
+                            logger.Info($"{count} active product/s items in {item.CategoryName}");
                         }
 
                         Console.WriteLine();
