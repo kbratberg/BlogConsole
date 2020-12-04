@@ -301,11 +301,17 @@ namespace NorthwindConsole
                         //delete category
                         Console.WriteLine("Choose the blog to delete:");
                          var db = new NorthwindConsole_32_KMBContext();
-                        var category = GetCategory(db);
+                            Category category = GetCategory(db);
                         if (category != null)
                         {
-                             // delete blog
+                            var productQuery = db.Categories.Include("Products").FirstOrDefault(p => p.CategoryId == category.CategoryId);
+                             
+                             foreach(Product product in category.Products){
+                                 if(product.CategoryId == category.CategoryId)
+                                    product.CategoryId = null;
+                             }
                             db.Categories.Remove(category);
+                            db.SaveChanges();
                             logger.Info($"Category (id: {category.CategoryId}) deleted");
                         }
                     }else if (choice == "11")
@@ -313,12 +319,30 @@ namespace NorthwindConsole
                         //delete product
                         Console.WriteLine("Choose the blog to delete:");
                          var db = new NorthwindConsole_32_KMBContext();
+                        
                         var product = GetProduct(db);
                         if (product != null)
                         {
-                             // delete blog
-                            db.Products.Remove(product);
-                            logger.Info($"Product (id: {product.ProductId}) deleted");
+                            int count = 0;
+                             var orderDetailQuery = db.Products.Include("OrderDetails").FirstOrDefault(o => o.ProductId == product.ProductId);
+                             foreach(OrderDetail order in product.OrderDetails){
+                                 if(order.ProductId == product.ProductId){
+                                     product.Discontinued = true;
+                                     count++;
+                                     if(count == 1){
+                                         logger.Info($"{product.ProductName} cannot be deleted due to order processing. It has been switched to Discontinued.");
+                                     }
+                                     db.SaveChanges();
+                                 }
+                             }
+                            
+                             if(count == 0){
+                             db.Products.Remove(product);
+                             db.SaveChanges();
+                             logger.Info($"Product (id: {product.ProductId}) deleted");
+                             }
+                               
+                            
                         }
 
                     }
