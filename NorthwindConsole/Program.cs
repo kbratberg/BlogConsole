@@ -49,10 +49,12 @@ namespace NorthwindConsole
                         
                         if(category != null){
                             category.CategoryName = UpdatedCategory.CategoryName;
+                            if(UpdatedCategory.Description != null){
                             category.Description = UpdatedCategory.Description;
+                            }
                             db.SaveChanges();
                         }
-                        
+                        logger.Info($"Updated Category: {category.CategoryId}\nName: {category.CategoryName}\nDescription: {category.Description}");
                     }
                     else if (choice == "2")
                     {   //add Category
@@ -64,6 +66,7 @@ namespace NorthwindConsole
                             db.Categories.Add(category);
                             db.SaveChanges();
                         }
+                        logger.Info($"Added Category: {category.CategoryId} {category.CategoryName} {category.Description}");
                     }
                     else if (choice == "3")
                     {   //display category and related products
@@ -126,11 +129,11 @@ namespace NorthwindConsole
                     }
                     else if (choice == "6")
                     {
-                        // do do display products
+                        //  display products
                         var db = new NorthwindConsole_32_KMBContext();
                         var query = db.Products.OrderBy(p => p.ProductName);
                         var product = GetProduct(db);
-
+                        logger.Info($"{query.Count()} Products Listed");
                         if (product != null)
                         {
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -161,6 +164,9 @@ namespace NorthwindConsole
                             db.Products.Add(product);
                             db.SaveChanges();
                         }
+                        logger.Info($"Product Added");
+                        logger.Info($"Product Name: {product.ProductName}\nSupplierId: {product.SupplierId}\nCategoryId: {product.CategoryId}\nQuantity Per Unit: {product.QuantityPerUnit}");
+                        logger.Info($"Unit Price: {product.UnitPrice}\nUnits in Stock: {product.UnitsInStock}\nUnits On Order: {product.UnitsOnOrder}\nReorder Level: {product.ReorderLevel}");
                     }
                     else if (choice == "8")
                     {
@@ -204,6 +210,9 @@ namespace NorthwindConsole
                             
                             db.SaveChanges();
                         }
+                        logger.Info($"Updated product: {product.ProductId}");
+                        logger.Info($"Product Name: {product.ProductName}\nSupplierId: {product.SupplierId}\nCategoryId: {product.CategoryId}\nQuantity Per Unit: {product.QuantityPerUnit}");
+                        logger.Info($"Unit Price: {product.UnitPrice}\nUnits in Stock: {product.UnitsInStock}\nUnits On Order: {product.UnitsOnOrder}\nReorder Level: {product.ReorderLevel}");
 
                     }
                     else if (choice == "9")
@@ -233,6 +242,7 @@ namespace NorthwindConsole
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine($"{query.Count()} records returned");
                             Console.ForegroundColor = ConsoleColor.White;
+                            logger.Info($"{query.Count()} Products");
                             foreach (var item in query)
                             {
                                 if (item.Discontinued == true)
@@ -253,6 +263,7 @@ namespace NorthwindConsole
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine($"{query.Count()} records returned");
                             Console.ForegroundColor = ConsoleColor.White;
+                            logger.Info($"{query.Count()} Products");
                             foreach (var item in query)
                             {
 
@@ -267,6 +278,7 @@ namespace NorthwindConsole
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine($"{query.Count()} records returned");
                             Console.ForegroundColor = ConsoleColor.White;
+                            logger.Info($"{query.Count()} Products");
                             foreach (var item in query)
                             {
 
@@ -276,8 +288,6 @@ namespace NorthwindConsole
 
                         }
                     }
-
-
 
 
                 } while (choice != "q");
