@@ -1,0 +1,16 @@
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\soft-arch\obj\Debug\net5.0\soft-arch.csprojAssemblyReference.cache
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\soft-arch\obj\Debug\net5.0\soft-arch.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\soft-arch\obj\Debug\net5.0\soft-arch.AssemblyInfoInputs.cache
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\soft-arch\obj\Debug\net5.0\soft-arch.AssemblyInfo.cs
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\soft-arch\obj\Debug\net5.0\soft-arch.csproj.CoreCompileInputs.cache
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\soft-arch\bin\Debug\net5.0\soft-arch.exe
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\soft-arch\bin\Debug\net5.0\soft-arch.deps.json
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\soft-arch\bin\Debug\net5.0\soft-arch.runtimeconfig.json
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\soft-arch\bin\Debug\net5.0\soft-arch.runtimeconfig.dev.json
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\soft-arch\bin\Debug\net5.0\soft-arch.dll
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\soft-arch\bin\Debug\net5.0\ref\soft-arch.dll
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\soft-arch\bin\Debug\net5.0\soft-arch.pdb
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\soft-arch\obj\Debug\net5.0\soft-arch.dll
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\soft-arch\obj\Debug\net5.0\ref\soft-arch.dll
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\soft-arch\obj\Debug\net5.0\soft-arch.pdb
+C:\Users\kateb\OneDrive\Desktop\dotNetDb\soft-arch\obj\Debug\net5.0\soft-arch.genruntimeconfig.cache
