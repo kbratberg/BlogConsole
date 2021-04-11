@@ -299,7 +299,7 @@ namespace NorthwindConsole
                     else if (choice == "10")
                     {
                         //delete category
-                        Console.WriteLine("Choose the blog to delete:");
+                        Console.WriteLine("Choose the product to delete:");
                          var db = new NorthwindConsole_32_KMBContext();
                             Category category = GetCategory(db);
                         if (category != null)
@@ -317,7 +317,7 @@ namespace NorthwindConsole
                     }else if (choice == "11")
                     {
                         //delete product
-                        Console.WriteLine("Choose the blog to delete:");
+                        Console.WriteLine("Choose the product to delete:");
                          var db = new NorthwindConsole_32_KMBContext();
                         
                         var product = GetProduct(db);
